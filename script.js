@@ -1,4 +1,3 @@
-
 async function loadQuoteAndBackground() {
   const response = await fetch("quotes.json");
   const quotes = await response.json();
@@ -8,8 +7,9 @@ async function loadQuoteAndBackground() {
   const randomImage = Math.floor(Math.random() * totalImages) + 1;
   const imagePath = `images/quote_image_${randomImage}.jpg`;
 
-  document.body.style.backgroundImage = `url(${imagePath})`;
+  document.getElementById("background-img").src = imagePath;
   document.getElementById("quote-text").innerText = quote;
 }
 
 window.onload = loadQuoteAndBackground;
+
