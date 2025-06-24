@@ -3,96 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LANLEE Aura Book</title>
+  <title>Daily Answer by LANLEE</title>
   <style>
-    * {
+    body {
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      font-family: "Georgia", serif;
+      color: white;
+      text-align: center;
+      background-color: black;
     }
 
-    body, html {
-      width: 100%;
+    .container {
       height: 100vh;
-      font-family: 'Georgia', serif;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
-      background-color: #000;
-      color: #fff;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      align-items: center;
       background-size: cover;
       background-position: center;
-      z-index: -1;
-      filter: brightness(0.85);
-    }
-
-    .quote-container {
-      max-width: 90%;
-      padding: 20px;
-      text-align: center;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+      padding: 30px;
     }
 
     .quote {
       font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 40px;
+      max-width: 90%;
+      text-shadow: 0 0 10px #fff;
     }
 
-    .brand {
-      font-size: 14px;
-      letter-spacing: 1px;
-      font-weight: 500;
+    .logo {
+      position: absolute;
+      bottom: 30px;
+      font-size: 16px;
       opacity: 0.8;
-    }
-
-    @media (min-width: 768px) {
-      .quote {
-        font-size: 32px;
-      }
+      text-shadow: 0 0 6px #fff;
     }
   </style>
 </head>
 <body>
-  <div class="bg" id="bg"></div>
-  <div class="quote-container">
+  <div class="container" id="container">
     <div class="quote" id="quote">Loading...</div>
-    <div class="brand">@LANLEE</div>
+    <div class="logo">@LANLEE</div>
   </div>
 
-  <script>
-    async function loadData() {
-      try {
-        const response = await fetch("quotes.json");
-        const quotes = await response.json();
-
-        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        document.getElementById("quote").innerText = randomQuote.quote;
-
-        // 替换成你自己图像文件夹中的真实图片链接（确保路径正确）
-        const totalImages = 40;
-        const randomIndex = Math.floor(Math.random() * totalImages) + 1;
-        const bgUrl = `images/${randomIndex}.jpg`;
-        document.getElementById("bg").style.backgroundImage = `url('${bgUrl}')`;
-
-      } catch (err) {
-        document.getElementById("quote").innerText = "Something went wrong...";
-        console.error(err);
-      }
-    }
-
-    loadData();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
-
