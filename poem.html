@@ -71,8 +71,19 @@
       font-size: 0.95rem;
       line-height: 1.85;
       color: #3a3026;
-      white-space: pre-wrap;
       min-height: 40vh;
+    }
+
+    /* 一行行慢慢浮现 */
+    .poem-line {
+      opacity: 0;
+      transform: translateY(2px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .poem-line.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .signature,
@@ -125,112 +136,112 @@
     /* 诗集 */
     const poems = [
       {
-  title: "LIFE IS GOING TO WORK OUT PERFECTLY",
-  lines: [
-    "life is going to work out perfectly —",
-    "maybe not the way you planned,",
-    "but in the way you quietly need.",
-    "",
-    "the right people will come into your life",
-    "without force,",
-    "without questioning,",
-    "just steady and sure,",
-    "like they were always meant to be there.",
-    "",
-    "the wrong people will leave",
-    "not with chaos,",
-    "but with distance —",
-    "a soft kind of closing",
-    "you’ll only understand later.",
-    "",
-    "you will find a home",
-    "that feels safe to return to,",
-    "where mornings don’t feel heavy",
-    "and silence doesn’t feel like punishment.",
-    "",
-    "you will build a career",
-    "that doesn’t drain you,",
-    "but teaches you who you are,",
-    "and what you’re capable of.",
-    "",
-    "you will wake beside someone",
-    "who doesn’t make love complicated,",
-    "someone who stays,",
-    "someone who shows up,",
-    "someone who makes ordinary mornings",
-    "feel like soft beginnings.",
-    "",
-    "you will have slow sundays",
-    "where life doesn’t demand anything from you —",
-    "just rest,",
-    "just softness,",
-    "just being here.",
-    "",
-    "you will have holidays",
-    "that feel warm and gentle,",
-    "filled with people",
-    "who don’t need you to be anything",
-    "other than yourself.",
-    "",
-    "you will take drives at night",
-    "with the windows down,",
-    "feeling something inside you loosen,",
-    "finally trusting",
-    "that life is opening up again.",
-    "",
-    "you will look at yourself one day",
-    "and feel a quiet pride,",
-    "realizing how far you’ve come",
-    "without even noticing.",
-    "",
-    "so please don’t rush yourself.",
-    "don’t measure your life",
-    "against someone else’s timeline.",
-    "",
-    "you are growing into the life",
-    "that was always meant for you.",
-    "",
-    "and yes —",
-    "life is going to work out",
-    "perfectly."
-  ]
-}
-
+        title: "LIFE IS GOING TO WORK OUT PERFECTLY",
+        lines: [
+          "life is going to work out perfectly —",
+          "maybe not the way you planned,",
+          "but in the way you quietly need.",
+          "",
+          "the right people will come into your life",
+          "without force,",
+          "without questioning,",
+          "just steady and sure,",
+          "like they were always meant to be there.",
+          "",
+          "the wrong people will leave",
+          "not with chaos,",
+          "but with distance —",
+          "a soft kind of closing",
+          "you’ll only understand later.",
+          "",
+          "you will find a home",
+          "that feels safe to return to,",
+          "where mornings don’t feel heavy",
+          "and silence doesn’t feel like punishment.",
+          "",
+          "you will build a career",
+          "that doesn’t drain you,",
+          "but teaches you who you are,",
+          "and what you’re capable of.",
+          "",
+          "you will wake beside someone",
+          "who doesn’t make love complicated,",
+          "someone who stays,",
+          "someone who shows up,",
+          "someone who makes ordinary mornings",
+          "feel like soft beginnings.",
+          "",
+          "you will have slow sundays",
+          "where life doesn’t demand anything from you —",
+          "just rest,",
+          "just softness,",
+          "just being here.",
+          "",
+          "you will have holidays",
+          "that feel warm and gentle,",
+          "filled with people",
+          "who don’t need you to be anything",
+          "other than yourself.",
+          "",
+          "you will take drives at night",
+          "with the windows down,",
+          "feeling something inside you loosen,",
+          "finally trusting",
+          "that life is opening up again.",
+          "",
+          "you will look at yourself one day",
+          "and feel a quiet pride,",
+          "realizing how far you’ve come",
+          "without even noticing.",
+          "",
+          "so please don’t rush yourself.",
+          "don’t measure your life",
+          "against someone else’s timeline.",
+          "",
+          "you are growing into the life",
+          "that was always meant for you.",
+          "",
+          "and yes —",
+          "life is going to work out",
+          "perfectly."
+        ]
+      }
     ];
 
-    /* 随机挑一篇 */
+    /* 随机挑一篇（现在只有一篇，但保留结构方便以后加） */
     const poem = poems[Math.floor(Math.random() * poems.length)];
-    document.getElementById("poemTitle").textContent = poem.title;
 
-    /* 打字效果 */
-    function typewriter(text, element, onDone) {
-      let idx = 0;
-      const speed = 80; // 打字速度
-
-      element.textContent = "";
-
-      function type() {
-        if (idx >= text.length) {
-          if (onDone) onDone();
-          return;
-        }
-        element.textContent += text.charAt(idx);
-        idx++;
-        setTimeout(type, speed);
-      }
-
-      type();
-    }
-
-    const fullText = poem.lines.join("\n");
-
+    const titleEl = document.getElementById("poemTitle");
+    const poemBodyEl = document.getElementById("poemBody");
     const signatureEl = document.getElementById("signature");
     const copyrightEl = document.getElementById("copyright");
 
-    typewriter(fullText, document.getElementById("poemBody"), () => {
+    titleEl.textContent = poem.title;
+
+    // 清空内容
+    poemBodyEl.innerHTML = "";
+
+    const lineDelay = 420; // 每行间隔时间（毫秒），可以调快/调慢
+
+    // 创建每一行，并一行行淡入
+    poem.lines.forEach((line, index) => {
+      const lineEl = document.createElement("div");
+      lineEl.className = "poem-line";
+      lineEl.textContent = line === "" ? " " : line;
+      poemBodyEl.appendChild(lineEl);
+
+      setTimeout(() => {
+        lineEl.classList.add("visible");
+      }, index * lineDelay);
+    });
+
+    // 全部行显示完，再淡入 ARVOLAN 和版权
+    const totalDelay = poem.lines.length * lineDelay + 600;
+
+    setTimeout(() => {
       signatureEl.classList.add("visible");
       copyrightEl.classList.add("visible");
-    });
+    }, totalDelay);
   </script>
 </body>
 </html>
