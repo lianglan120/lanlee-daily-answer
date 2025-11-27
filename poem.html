@@ -12,25 +12,26 @@
       padding: 0;
     }
 
-    /* 💫 dreamy 背景样式 */
+    /* 手机优先布局：允许上下滑动 */
     body {
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: 20px 10px;
+      padding: 24px 12px 40px;
       background-color: #e9e2f3;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
-      font-family: "Georgia", "Times New Roman", serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   system-ui, sans-serif;
       color: #292016;
       position: relative;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
-    /* dreamy 光晕 + haze 叠加层 */
+    /* dreamy 柔光蒙版 */
     body::before {
       content: "";
       position: fixed;
@@ -38,81 +39,91 @@
       pointer-events: none;
       background:
         radial-gradient(circle at top, rgba(255,255,255,0.45), transparent 55%),
-        radial-gradient(circle at bottom, rgba(231,209,255,0.45), transparent 55%),
-        linear-gradient(to bottom, rgba(0,0,0,0.18), transparent 35%, transparent 65%, rgba(0,0,0,0.16));
+        radial-gradient(circle at bottom, rgba(231,209,255,0.40), transparent 55%),
+        linear-gradient(to bottom, rgba(0,0,0,0.10), transparent 35%, transparent 65%, rgba(0,0,0,0.12));
       mix-blend-mode: soft-light;
-      opacity: 0.9;
+      opacity: 0.85;
       z-index: 0;
     }
 
-    /* 书页主体 */
+    /* 书页卡片，更宽、更透明一点 */
     .page {
-      max-width: 420px;
-      width: 72%;
-      min-height: 60vh;
-      padding: 40px 26px 34px;
-      line-height: 1.7;
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 28px 22px 26px;
+      line-height: 1.8;
       position: relative;
-      background: rgba(255, 252, 245, 0.96);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
-      border-radius: 4px;
+      background: rgba(255, 252, 245, 0.86);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.20);
+      border-radius: 6px;
       z-index: 1;
     }
 
     @media (min-width: 768px) {
+      body {
+        padding: 40px 16px 60px;
+      }
+
       .page {
-        max-width: 460px;
-        width: 48%;
-        padding: 60px 36px 46px;
-        margin-left: 8%;
+        padding: 40px 32px 34px;
       }
     }
 
-    /* 书页边框 */
+    /* 细边框模拟纸张边缘 */
     .page::before {
       content: "";
       position: absolute;
-      inset: 14px 10px;
-      border: 1px solid rgba(0,0,0,0.06);
+      inset: 16px 12px;
+      border: 1px solid rgba(0,0,0,0.05);
       pointer-events: none;
-      opacity: 0.7;
+      opacity: 0.8;
     }
 
+    .inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* 标题：简洁全大写 */
     .title {
       font-size: 0.9rem;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       margin-bottom: 18px;
+      color: #524337;
     }
 
-    /* 一行行动态浮现 */
-    .line {
-      font-size: 0.9rem;
-      margin-bottom: 4px;
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-
-    .line.show {
-      opacity: 1;
-      transform: translateY(0);
+    /* 诗文：适合手机阅读的字号 + 行距 */
+    .poem {
+      font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS",
+                   -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: #3a3026;
+      white-space: pre-wrap; /* 保留换行 */
+      word-wrap: break-word;
     }
 
     .signature {
       margin-top: 18px;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       text-align: right;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.20em;
       text-transform: uppercase;
-      opacity: 0.7;
+      opacity: 0.65;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   system-ui, sans-serif;
     }
 
     .hint {
       margin-top: 10px;
-      font-size: 0.7rem;
-      opacity: 0.4;
+      font-size: 0.72rem;
+      opacity: 0.45;
       text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   system-ui, sans-serif;
     }
   </style>
 </head>
@@ -120,21 +131,53 @@
 <body>
 
   <div class="page">
-    <div id="poemTitle" class="title"></div>
-    <div id="poemBody"></div>
-    <div class="signature">— ARVOLAN</div>
-    <div class="hint">refresh for another page</div>
+    <div class="inner">
+      <div id="poemTitle" class="title"></div>
+      <div id="poemBody" class="poem"></div>
+      <div class="signature">— ARVOLAN</div>
+      <div class="hint">tap and breathe • refresh for another page</div>
+    </div>
   </div>
 
   <script>
-    /* 🎨 随机背景图（17 张 images/poetry_bg_XX.jpg） */
+    /* 🎨 随机背景图（poetry_bg_01 ~ poetry_bg_17） */
     const bgTotal = 17;
     const randomBg = Math.floor(Math.random() * bgTotal) + 1;
     const bgName = String(randomBg).padStart(2, "0");
     document.body.style.backgroundImage = `url('images/poetry_bg_${bgName}.jpg')`;
 
-    /* 📚 诗集内容（可无限扩展） */
+    /* 📚 诗集内容（可以继续往数组里加） */
     const poems = [
+      {
+        title: "THE ART OF LETTING GO",
+        lines: [
+          "letting go is not forgetting.",
+          "it is not pretending you never cared.",
+          "letting go is choosing peace",
+          "over the version of love",
+          "that kept hurting you.",
+          "",
+          "it is accepting the truth",
+          "instead of rewriting it",
+          "again and again.",
+          "",
+          "letting go is unclenching your hands",
+          "from what was never yours to hold.",
+          "",
+          "letting go is grieving the dream",
+          "without grieving yourself.",
+          "",
+          "it is the slow, patient art",
+          "of returning to yourself—",
+          "breath by breath,",
+          "until the memories stop burning",
+          "and start becoming lessons.",
+          "",
+          "letting go is not the end.",
+          "it is the beginning",
+          "of who you are becoming next."
+        ]
+      },
       {
         title: "STAY SINGLE UNTIL",
         lines: [
@@ -161,22 +204,12 @@
           "stay single until someone chooses you",
           "the same on the quiet days",
           "as they do on the bright ones.",
-          "until love stops feeling like a test",
-          "and starts feeling like returning home.",
-          "",
-          "stay single until someone holds your heart",
-          "with both hands",
-          "and doesn’t drop it",
-          "when they feel overwhelmed.",
           "",
           "because that’s what real love is—",
-          "a place where your nervous system can finally relax.",
-          "",
-          "you deserve that kind of love.",
-          "wait for it."
+          "a place where your nervous system",
+          "can finally relax."
         ]
       },
-
       {
         title: "THIS IS YOUR SIGN",
         lines: [
@@ -184,16 +217,10 @@
           "to trust that life is happening for you,",
           "not to you.",
           "",
-          "i know it’s hard to believe",
-          "when everything feels uncertain,",
-          "but the closed doors were not punishments—",
+          "the closed doors were not punishments—",
           "they were redirections.",
-          "",
           "the timing that frustrated you",
           "was protection.",
-          "the endings that hurt",
-          "were clearing space",
-          "for something you couldn’t see yet.",
           "",
           "you are not stuck.",
           "you are being shaped.",
@@ -210,39 +237,6 @@
           "is to stay open."
         ]
       },
-
-      {
-        title: "THE ART OF LETTING GO",
-        lines: [
-          "letting go is not forgetting.",
-          "it is not pretending you never cared.",
-          "",
-          "letting go is choosing peace",
-          "over the version of love",
-          "that kept hurting you.",
-          "",
-          "it is accepting the truth",
-          "instead of rewriting it",
-          "again and again.",
-          "",
-          "letting go is unclenching your hands",
-          "from what was never yours to hold.",
-          "",
-          "letting go is grieving the dream",
-          "without grieving yourself.",
-          "",
-          "it is the slow, patient art",
-          "of returning to yourself—",
-          "breath by breath,",
-          "until the memories stop burning",
-          "and start becoming lessons.",
-          "",
-          "letting go is not the end.",
-          "it is the beginning",
-          "of who you are becoming next."
-        ]
-      },
-
       {
         title: "EVEN IF YOU’RE NOT CONTENT",
         lines: [
@@ -251,67 +245,57 @@
           "i’m proud of you",
           "for simply being here.",
           "",
-          "maybe your path wasn’t smooth.",
-          "maybe you rebuilt yourself quietly,",
-          "again and again.",
+          "you have survived days",
+          "you thought would swallow you whole.",
+          "you have carried feelings",
+          "you never said out loud.",
           "",
           "and yet, you kept going.",
           "even with a tired heart,",
           "even with uncertainty,",
-          "even with days where breathing felt like work.",
-          "",
-          "you overcame things",
-          "people never saw.",
+          "even with moments",
+          "where breathing felt like work.",
           "",
           "you are allowed to want more",
-          "and still honour how far you’ve come.",
+          "and still honour",
+          "how far you’ve come.",
           "",
           "not giving up",
-          "is already extraordinary."
+          "is already a miracle."
         ]
       }
     ];
 
-    /* ✨ 随机挑选一首诗 */
+    /* ✨ 随机挑一首诗 */
     function pickRandomPoem() {
       const index = Math.floor(Math.random() * poems.length);
       return poems[index];
     }
 
-    /* 🪄 一行一行浮现效果 */
-    function showPoem(poem) {
+    /* ⌨️ 打字机效果：每个字符慢慢打出来 */
+    function typePoem(poem) {
       const titleEl = document.getElementById("poemTitle");
       const bodyEl = document.getElementById("poemBody");
 
       titleEl.textContent = poem.title || "";
-      bodyEl.innerHTML = "";
+      bodyEl.textContent = "";
 
-      let i = 0;
+      // 把多行数组拼成带换行的整体文本
+      const fullText = poem.lines.join("\n");
+      let idx = 0;
 
-      function revealNextLine() {
-        if (i >= poem.lines.length) return;
-
-        const lineEl = document.createElement("div");
-        lineEl.className = "line";
-        lineEl.textContent = poem.lines[i];
-
-        bodyEl.appendChild(lineEl);
-
-        requestAnimationFrame(() => {
-          lineEl.classList.add("show");
-        });
-
-        i++;
-        setTimeout(revealNextLine, 1300); // 1.3 秒出现一行
+      function typeNextChar() {
+        if (idx > fullText.length) return;
+        bodyEl.textContent = fullText.slice(0, idx);
+        idx++;
+        setTimeout(typeNextChar, 55); // 这里控制速度（毫秒）：越大越慢
       }
 
-      revealNextLine();
+      typeNextChar();
     }
 
-    // 开始显示诗集
     const poem = pickRandomPoem();
-    showPoem(poem);
-
+    typePoem(poem);
   </script>
 </body>
 </html>
