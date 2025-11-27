@@ -145,7 +145,7 @@
     const bgTotal = 17;
     const randomBg = Math.floor(Math.random() * bgTotal) + 1;
     const bgName = String(randomBg).padStart(2, "0");
-    document.body.style.backgroundImage = url('images/poetry_bg_${bgName}.jpg');
+    document.body.style.backgroundImage = `url('images/poetry_bg_${bgName}.jpg')`;
 
     /* 📚 诗集内容：可以继续往数组里加 */
     const poems = [
@@ -314,7 +314,7 @@
         hour12: false
       });
 
-      return ${place} • ${day} ${month} ${year} • ${time};
+      return `${place} • ${day} ${month} ${year} • ${time}`;
     }
 
     const signatureEl = document.getElementById("signature");
