@@ -202,33 +202,29 @@
       signatureEl.classList.add("visible");
       copyrightEl.classList.add("visible");
     }, totalDelay);
+    /* ✨ 自动缓慢滚动 */
+  let autoScrollActive = true;
+
+  function slowScroll() {
+    if (!autoScrollActive) return;
+    window.scrollBy(0, 0.4);  // ← 控制速度
+    requestAnimationFrame(slowScroll);
+  }
+
+  function stopAutoScroll() {
+    autoScrollActive = false;
+  }
+
+  window.addEventListener('wheel', stopAutoScroll, { passive: true });
+  window.addEventListener('touchstart', stopAutoScroll, { passive: true });
+  window.addEventListener('mousedown', stopAutoScroll);
+
+  window.onload = () => {
+    setTimeout(() => {
+      slowScroll();
+    }, 1800); // 等诗集出现稳定后开始慢滑
+  };
   </script>
 </body>
 </html>
-
-/* ✨ 自动缓慢滚动 */
-let autoScrollActive = true;
-
-function slowScroll() {
-  if (!autoScrollActive) return;
-  window.scrollBy(0, 0.4);  // ← 调这边来控制速度（越小越慢）
-  requestAnimationFrame(slowScroll);
-}
-
-/* 用户一触摸 / 滚动立即停止自动滚动 */
-function stopAutoScroll() {
-  autoScrollActive = false;
-}
-
-window.addEventListener('wheel', stopAutoScroll, { passive: true });
-window.addEventListener('touchstart', stopAutoScroll, { passive: true });
-window.addEventListener('mousedown', stopAutoScroll);
-
-/* 页面加载后启动 */
-window.onload = () => {
-  setTimeout(() => {
-    slowScroll();
-  }, 1800); // 等待页面淡入完，再开始慢滑
-};
-
 
