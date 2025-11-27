@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ARVOLAN • soft page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      background: #f3ecdd url("images/paper-texture.jpg") center/cover no-repeat fixed;
+      font-family: "Georgia", "Times New Roman", serif;
+    }
+
+    .page {
+      max-width: 520px;
+      width: 100%;
+      background: rgba(255, 252, 245, 0.96);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+      padding: 32px 26px 34px;
+      border-radius: 4px;
+      position: relative;
+      line-height: 1.7;
+      color: #2d2418;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 14px 10px;
+      border: 1px solid rgba(0,0,0,0.06);
+      pointer-events: none;
+    }
+
+    .inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .body-text {
+      font-size: 0.92rem;
+      white-space: pre-line;
+      min-height: 140px;
+    }
+
+    .signature {
+      margin-top: 20px;
+      font-size: 0.75rem;
+      text-align: right;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 0.5ch;
+      animation: blink 1s steps(1) infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      50.01%, 100% { opacity: 0; }
+    }
+
+    .hint {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="inner">
+      <div id="poemTitle" class="title"></div>
+      <div id="poemBody" class="body-text"></div>
+      <div class="signature">— ARVOLAN</div>
+      <div class="hint">refresh for another page</div>
+    </div>
+  </div>
+
+  <script>
+    // 这里是你的短篇诗集，可以继续往里面加
+    const poems = [
+      {
+        id: "small-beginning",
+        title: "A SMALL BEGINNING",
+        text:
+`there are days when you feel
+like your steps are too small
+to matter—
+
+as if progress only counts
+when it is loud
+and undeniable.
+
+but beginnings were never meant
+to arrive loudly;
+only honestly.
+
+one softer choice,
+one deeper breath,
+one moment of choosing
+not to give up—
+
+this, too,
+is a beginning.`
+      },
+      {
+        id: "untangled",
+        title: "UNTANGLED",
+        text:
+`not every knot inside you
+needs to be solved today.
+
+some things loosen slowly,
+like a breath
+you forgot you were holding.
+
+healing is not a race;
+it is the quiet art
+of returning to yourself,
+strand by gentle strand.`
+      },
+      {
+        id: "gentleness",
+        title: "THE GENTLENESS YOU DESERVE",
+        text:
+`you spent years believing
+you had to earn softness—
+
+as if tenderness were a prize
+for those who never failed.
+
+but gentleness is not a reward,
+it is a need.
+
+it belongs to you
+simply because you are here,
+breathing, trying,
+continuing.`
+      }
+      // ⇧ 这里继续添加更多诗 { title, text } 对象即可
+    ];
+
+    function pickRandomPoem() {
+      const index = Math.floor(Math.random() * poems.length);
+      return poems[index];
+    }
+
+    const titleEl = document.getElementById("poemTitle");
+    const bodyEl = document.getElementById("poemBody");
+
+    // 简单打字机效果：先打标题，再打正文
+    function typeWriter(fullTitle, fullText, speed = 25) {
+      let tIndex = 0;
+      let bIndex = 0;
+
+      titleEl.textContent = "";
+      bodyEl.innerHTML = "";
+
+      const titleCursor = document.createElement("span");
+      titleCursor.className = "cursor";
+      titleCursor.textContent = "|";
+      titleEl.appendChild(titleCursor);
+
+      const bodyCursor = document.createElement("span");
+      bodyCursor.className = "cursor";
+      bodyCursor.textContent = "|";
+      bodyEl.appendChild(bodyCursor);
+
+      // 打标题
+      const titleTimer = setInterval(() => {
+        if (tIndex < fullTitle.length) {
+          titleCursor.before(document.createTextNode(fullTitle[tIndex]));
+          tIndex++;
+        } else {
+          clearInterval(titleTimer);
+          // 标题结束后，开始打正文
+          typeBody();
+        }
+      }, speed);
+
+      // 打正文
+      function typeBody() {
+        const bodyTimer = setInterval(() => {
+          if (bIndex < fullText.length) {
+            const ch = fullText[bIndex];
+            if (ch === "\n") {
+              bodyCursor.before(document.createElement("br"));
+            } else {
+              bodyCursor.before(document.createTextNode(ch));
+            }
+            bIndex++;
+          } else {
+            clearInterval(bodyTimer);
+            // 正文结束，停下光标闪烁即可
+          }
+        }, speed);
+      }
+    }
+
+    // 选一首随机诗并播放打字机
+    const poem = pickRandomPoem();
+    typeWriter(poem.title, poem.text);
+  </script>
+</body>
+</html>
