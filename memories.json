@@ -1,0 +1,20 @@
+[
+  {
+    "id": "lucy",
+    "title": "for lucy",
+    "text": "a small piece of your story,\nkept safely here.\n\nyou can return to this page\nwhenever your heart needs it.",
+    "video": "https://www.youtube.com/embed/XXXXXXXX"
+  },
+  {
+    "id": "mom",
+    "title": "for mom",
+    "text": "thank you for all the quiet things\nyou did that nobody saw.\n\ntoday this page belongs to you.",
+    "video": "https://www.youtube.com/embed/YYYYYYYY"
+  },
+  {
+    "id": "trip-2025",
+    "title": "our 2025 trip",
+    "text": "the days we laughed too loud\nand slept too little.\n\nkept here so we never forget\nhow it felt to be fully alive.",
+    "video": ""
+  }
+]
