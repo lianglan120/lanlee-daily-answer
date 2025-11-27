@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ARVOLAN • soft affirmations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111111;
+      font-family: "Georgia", "Times New Roman", serif;
+      color: #222222;
+      padding: 16px;
+    }
+    .page-wrapper {
+      max-width: 480px;
+      width: 100%;
+      background: #f7f0e7;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+      padding: 36px 32px 40px;
+      position: relative;
+    }
+    .page-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(0,0,0,0.05);
+      pointer-events: none;
+    }
+    .page-title {
+      text-align: center;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: lowercase;
+      margin-bottom: 18px;
+      color: #6a5a4a;
+    }
+    .page-text {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      white-space: pre-line; /* 保留换行 */
+    }
+    .page-meta {
+      margin-top: 22px;
+      font-size: 0.7rem;
+      text-align: right;
+      color: #8a7b6c;
+    }
+    .small-note {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 0.75rem;
+      color: #f5f0ff;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="page-title" id="poem-title">a soft page</div>
+    <div class="page-text" id="poem-text"></div>
+    <div class="page-meta" id="poem-meta"></div>
+  </div>
+  <div class="small-note">tap refresh for another page · ARVOLAN</div>
+
+  <script>
+    const poems = [
+      {
+        title: "a new era",
+        meta: 'from "Letters to Your Future Self"',
+        text: `what if this year was not about fixing yourself,
+but about finally meeting yourself?
+
+you have spent so long listing every flaw,
+every almost, every unfinished chapter.
+but what if a new era begins
+not when you become someone different,
+but when you stop apologising
+for the person you already are.
+
+you are allowed to like your own softness.
+you are allowed to hold your own hand
+through the parts of life that still scare you.
+you are allowed to build a life
+that feels gentle on your nervous system.
+
+this is your quiet permission slip:
+you do not have to earn a fresh start.
+you are standing in one.`
+      },
+      {
+        title: "you are not behind",
+        meta: 'from "The Slow Blooming Kind"',
+        text: `there is no secret schedule
+that you have failed to keep.
+
+no invisible list where your name
+is written under "late".
+
+you are allowed to move
+at the pace your heart can understand.
+some lives explode all at once.
+others unfold like soft pages,
+one slow, honest choice at a time.
+
+the fact that you are still here,
+still trying to choose better for yourself,
+is proof that nothing about you is
+"too late".
+
+you are not behind.
+you are simply blooming
+in your own season.`
+      },
+      {
+        title: "you are enough even when",
+        meta: 'from "Things You Need to Hear More Than Once"',
+        text: `you are enough
+even when the to-do list is not finished,
+even when the message is left on read,
+even when the pla
