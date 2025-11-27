@@ -129,4 +129,203 @@ in your own season.`
         text: `you are enough
 even when the to-do list is not finished,
 even when the message is left on read,
-even when the pla
+even when the plan you made for your life
+no longer fits the person you are becoming.
+
+you are enough
+on the days you are kind to everyone
+except yourself,
+on the nights you cry over small things
+because they were never really small.
+
+you were never meant to prove your worth
+through exhaustion.
+
+repeat after me
+in the smallest voice you have:
+i am allowed to be loved
+even when i am not impressive.
+
+say it until it feels less like a question
+and more like the truth.`
+      },
+      {
+        title: "soft does not mean weak",
+        meta: 'from "For the Gentle Ones"',
+        text: `they told you to toughen up,
+as if kindness was a liability,
+as if caring made you easy to break.
+
+but softness is not the absence of strength;
+it is the decision to keep your heart open
+in a world that gave you
+every reason to close it.
+
+there is a power in the way you notice,
+the way you listen,
+the way you choose not to become
+what once hurt you.
+
+do not trade your tenderness
+for an armour that does not fit.
+you are allowed to be both gentle and firm,
+both compassionate and clear.
+
+your softness is not the problem.
+it is the medicine.`
+      },
+      {
+        title: "it is safe to rest",
+        meta: 'from "Notes for the Overwhelmed"',
+        text: `your worth is not measured
+by how much you can carry
+without breaking.
+
+you do not have to be productive
+to be lovable.
+you do not have to be useful
+to deserve a quiet evening
+where nothing gets done
+except breathing.
+
+rest is not a prize you win
+once you are burnt out enough.
+rest is a right.
+
+let today be the day
+you put something down
+before it drops you.`
+      },
+      {
+        title: "you are allowed to take up space",
+        meta: 'from "The Girl Who Learned to Shrink"',
+        text: `you spent years folding yourself smaller:
+quieter opinions,
+softer footsteps,
+apologies for existing.
+
+somewhere along the way
+you started believing that being lovable
+meant being less.
+
+here is your reminder:
+your presence is not an inconvenience.
+your needs are not an interruption.
+
+you are allowed to laugh loudly,
+to say "that hurts",
+to ask for clarity,
+to change your mind.
+
+you are not here to decorate the room.
+you are here to live in it.`
+      },
+      {
+        title: "you are allowed to change",
+        meta: 'from "A Moving, Living Thing"',
+        text: `you are not obligated
+to be the same person
+you were when someone first met you.
+
+you are allowed to outgrow the habits
+that once helped you survive.
+you are allowed to leave stories
+that no longer feel like home.
+
+growth is not betrayal.
+sometimes it is the greatest loyalty
+to the quiet truth inside you.
+
+when people say
+"you've changed",
+let your answer be:
+"i hope so."`
+      },
+      {
+        title: "you are not too much",
+        meta: 'from "For the Big-Hearted"',
+        text: `you have been told in so many ways
+to dim yourself:
+laugh a little softer,
+want a little less,
+need nothing at all.
+
+but the world does not need
+a quieter version of you.
+it needs your full-colour feelings,
+your ridiculous hope,
+the way you love like
+you weren't warned.
+
+you are not too much.
+you are exactly as expansive
+as you were meant to be.
+
+the ones who can meet you there
+will never ask you to shrink.`
+      },
+      {
+        title: "love starts with you",
+        meta: 'from "The Mirror Is Not the Enemy"',
+        text: `you keep waiting for someone
+to arrive and finally prove
+that you were worth choosing.
+
+but every time you abandon yourself—
+ignore your needs,
+override your intuition,
+speak to your reflection with cruelty—
+you teach your heart
+that it must wait for permission
+to be treated well.
+
+let today be a small rebellion:
+say one kind thing to yourself
+that you do not fully believe yet.
+
+you are not faking confidence;
+you are building it.
+
+love does not begin
+the day someone else sees your light.
+it begins the moment you decide
+to stop dimming it for yourself.`
+      },
+      {
+        title: "you are doing better than you think",
+        meta: 'from "Soft Evidence"',
+        text: `no one applauds you
+for the cigarettes you did not smoke,
+the messages you did not send,
+the spiral you gently interrupted.
+
+there is no medal
+for the mornings you get out of bed
+even when your chest feels like stone,
+for the nights you choose sleep
+over self-destruction.
+
+but these small, quiet choices
+are proof of a different kind of courage.
+
+next time you ask
+"why am i still like this?",
+also ask:
+"how have i grown without noticing?"
+
+the answer is:
+more than you give yourself credit for.`
+      }
+    ];
+
+    function showRandomPoem() {
+      const poem = poems[Math.floor(Math.random() * poems.length)];
+      document.getElementById("poem-title").textContent = poem.title;
+      document.getElementById("poem-text").textContent = poem.text;
+      document.getElementById("poem-meta").textContent = poem.meta;
+    }
+
+    showRandomPoem();
+  </script>
+</body>
+</html>
