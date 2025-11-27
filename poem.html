@@ -17,11 +17,12 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       color: #292016;
       overflow-y: auto;
     }
 
+    /* dreamy 柔光叠加 */
     body::before {
       content: "";
       position: fixed;
@@ -35,15 +36,17 @@
       pointer-events: none;
     }
 
+    /* 书页卡片 */
     .page {
       width: 100%;
       max-width: 520px;
-      padding: 32px 24px 40px;
+      padding: 28px 22px 32px;
       background: rgba(255,252,245,0.86);
       border-radius: 6px;
       box-shadow: 0 10px 26px rgba(0,0,0,0.2);
       position: relative;
       line-height: 1.9;
+      z-index: 1;
     }
 
     .page::before {
@@ -56,46 +59,70 @@
     }
 
     .title {
-      font-size: 0.92rem;
-      letter-spacing: 0.18em;
+      font-size: 0.86rem;              /* 标题稍微小一点 */
+      letter-spacing: 0.12em;          /* 间距缩小 */
       text-transform: uppercase;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       color: #524337;
+      text-align: left;
     }
 
     .poem {
       font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS",
-          -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 1rem;
-      line-height: 1.9;
+                   -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-size: 0.95rem;              /* 正文字体整体变小一点 */
+      line-height: 1.85;
       color: #3a3026;
       white-space: pre-wrap;
+      word-wrap: break-word;
+      min-height: 40vh;
+    }
+
+    .signature,
+    .copyright,
+    .stamp {
+      opacity: 0;                      /* 初始隐藏，打完字再出现 */
+      transition: opacity 0.8s ease;
+    }
+
+    .signature.visible,
+    .copyright.visible,
+    .stamp.visible {
+      opacity: 0.65;
     }
 
     .signature {
       margin-top: 22px;
-      font-size: 0.83rem;
+      font-size: 0.78rem;
       text-align: right;
       letter-spacing: 0.20em;
       text-transform: uppercase;
-      opacity: 0.65;
     }
 
     .copyright {
-      margin-top: 8px;
-      font-size: 0.65rem;
+      margin-top: 6px;
+      font-size: 0.63rem;
       text-align: right;
       opacity: 0.45;
     }
 
     .stamp {
-      margin-top: 22px;
-      font-size: 0.70rem;
+      margin-top: 14px;
+      font-size: 0.68rem;
       text-align: right;
       text-transform: uppercase;
       letter-spacing: 0.15em;
       opacity: 0.35;
       font-weight: 500;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        padding: 40px 16px 60px;
+      }
+      .page {
+        padding: 36px 28px 36px;
+      }
     }
   </style>
 </head>
@@ -106,26 +133,28 @@
     <div id="poemTitle" class="title"></div>
     <div id="poemBody" class="poem"></div>
 
-    <div class="signature">— ARVOLAN</div>
-    <div class="copyright">all original writings. copyright © arvolan. all rights reserved.</div>
-
+    <div id="signature" class="signature">— ARVOLAN</div>
+    <div id="copyright" class="copyright">
+      all original writings. copyright © arvolan. all rights reserved.
+    </div>
     <div id="stamp" class="stamp"></div>
   </div>
 
   <script>
-    /* 随机背景 */
-    const total = 17;
-    const pick = Math.floor(Math.random() * total) + 1;
-    const num = String(pick).padStart(2, "0");
-    document.body.style.backgroundImage = `url('images/poetry_bg_${num}.jpg')`;
+    /* 🎨 随机背景图：poetry_bg_01 ~ poetry_bg_17 */
+    const bgTotal = 17;
+    const randomBg = Math.floor(Math.random() * bgTotal) + 1;
+    const bgName = String(randomBg).padStart(2, "0");
+    document.body.style.backgroundImage = url('images/poetry_bg_${bgName}.jpg');
 
-    /* 诗集 */
+    /* 📚 诗集内容：可以继续往数组里加 */
     const poems = [
       {
         title: "THE ART OF LETTING GO",
         lines: [
           "letting go is not forgetting.",
           "it is not pretending you never cared.",
+          "",
           "letting go is choosing peace",
           "over the version of love",
           "that kept hurting you.",
@@ -148,57 +177,133 @@
           "it is the beginning",
           "of who you will become next."
         ]
+      },
+      {
+        title: "STAY SINGLE UNTIL",
+        lines: [
+          "stay single until love feels like peace",
+          "and not a guessing game.",
+          "",
+          "stay single until the person in front of you",
+          "doesn’t make you wonder what you did wrong,",
+          "but makes you wonder how you lived so long",
+          "without this level of calm.",
+          "",
+          "stay single until someone looks at you",
+          "like you are a place to rest—",
+          "not a project,",
+          "not a challenge,",
+          "not a temporary storyline.",
+          "",
+          "stay single until conversations feel like exhaling,",
+          "until honesty is the default,",
+          "until effort isn’t something you have to beg for",
+          "or reinterpret",
+          "or justify to your friends.",
+          "",
+          "because that’s what real love is—",
+          "a place where your nervous system",
+          "can finally relax."
+        ]
+      },
+      {
+        title: "THIS IS YOUR SIGN",
+        lines: [
+          "this is your sign",
+          "to trust that life is happening for you,",
+          "not to you.",
+          "",
+          "the closed doors were not punishments—",
+          "they were redirections.",
+          "the timing that frustrated you",
+          "was protection.",
+          "",
+          "you are not stuck.",
+          "you are being shaped.",
+          "",
+          "every delay taught you patience,",
+          "every detour gave you perspective.",
+          "",
+          "let life work in ways",
+          "you don’t yet understand.",
+          "",
+          "life is not happening to you.",
+          "life is happening for you.",
+          "your only job",
+          "is to stay open."
+        ]
+      },
+      {
+        title: "EVEN IF YOU’RE NOT CONTENT",
+        lines: [
+          "even if you don’t feel content",
+          "with where you are,",
+          "i’m proud of you",
+          "for simply being here.",
+          "",
+          "you have survived days",
+          "you thought would swallow you whole.",
+          "you have carried feelings",
+          "you never said out loud.",
+          "",
+          "and yet, you kept going.",
+          "even with a tired heart,",
+          "even with uncertainty,",
+          "even with moments",
+          "where breathing felt like work.",
+          "",
+          "you are allowed to want more",
+          "and still honour",
+          "how far you’ve come.",
+          "",
+          "not giving up",
+          "is already a miracle."
+        ]
       }
-      /* … 你的其他诗集保持不变即可 … */
     ];
 
-    /* 打字机效果 */
-   function typewriter(text, element) {
-  let idx = 0;
-  const speed = 120; // 越大越慢，120–160区间最治愈
-
-  function type() {
-    if (idx <= text.length) {
-      // 每次增加一个字
-      element.innerHTML = `
-        <span style="opacity:0; transition:opacity 0.8s ease;">${text.slice(0, idx)}</span>
-      `;
-
-      // 让最后一个字慢慢从透明变清晰（像浮印效果）
-      const span = element.querySelector("span");
-      requestAnimationFrame(() => {
-        span.style.opacity = 1;
-      });
-
-      idx++;
-      setTimeout(type, speed);
+    /* ✨ 随机挑一首诗 */
+    function pickRandomPoem() {
+      const index = Math.floor(Math.random() * poems.length);
+      return poems[index];
     }
-  }
 
-  type();
-}
+    /* ⌨️ 打字机效果：逐字追加，避免闪烁，速度明显变慢 */
+    function typewriter(text, element, onDone) {
+      let idx = 0;
+      const speed = 160; // 毫秒，越大越慢；现在是明显“慢慢出现”
 
-    /* 显示随机诗 */
-    const poem = poems[Math.floor(Math.random() * poems.length)];
+      element.textContent = "";
+
+      function type() {
+        if (idx >= text.length) {
+          if (typeof onDone === "function") onDone();
+          return;
+        }
+        element.textContent += text.charAt(idx);  // 逐字追加，不整块刷新
+        idx++;
+        setTimeout(type, speed);
+      }
+
+      type();
+    }
+
+    const poem = pickRandomPoem();
     document.getElementById("poemTitle").textContent = poem.title;
-    typewriter(poem.lines.join("\n"), document.getElementById("poemBody"));
+    const fullText = poem.lines.join("\n");
 
-    /* 地点 + 时间 STAMP */
+    /* 🌍 地点 + 时间：使用时区，只取城市名，避免乱猜国家 */
+    function getPlaceFromTimezone() {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      const parts = tz.split("/");
+      if (parts.length === 1) return (parts[0] || "SOMEWHERE").toUpperCase();
+      const city = parts[1] || parts[0];
+      return city.replace(/_/g, " ").toUpperCase();
+    }
+
     function generateStamp() {
+      const place = getPlaceFromTimezone();
       const date = new Date();
-      const locale = Intl.DateTimeFormat().resolvedOptions().locale;
-      const region = locale.split("-")[1] || "XX";
-
-      const locations = {
-        IE: "DUBLIN",
-        CN: "BEIJING",
-        SG: "SINGAPORE",
-        MY: "MALAYSIA",
-        US: "USA",
-        GB: "LONDON"
-      };
-
-      const place = locations[region] || region.toUpperCase();
 
       const day = date.getDate();
       const month = date.toLocaleString("en-US", { month: "short" }).toUpperCase();
@@ -209,11 +314,20 @@
         hour12: false
       });
 
-      return `${place} • ${day} ${month} ${year} • ${time}`;
+      return ${place} • ${day} ${month} ${year} • ${time};
     }
 
-    document.getElementById("stamp").textContent = generateStamp();
-  </script>
+    const signatureEl = document.getElementById("signature");
+    const copyrightEl = document.getElementById("copyright");
+    const stampEl = document.getElementById("stamp");
 
+    // 打字完成后，再显示 ARVOLAN + 版权 + STAMP
+    typewriter(fullText, document.getElementById("poemBody"), () => {
+      stampEl.textContent = generateStamp();
+      signatureEl.classList.add("visible");
+      copyrightEl.classList.add("visible");
+      stampEl.classList.add("visible");
+    });
+  </script>
 </body>
 </html>
