@@ -1,8 +1,7 @@
-[
-  {
-    "id": "video-only-1",
-    "title": "for you",
-    "text": "here is something kept safely for you.\n\nwhenever you need it, you can return.",
-    "video": "https://www.youtube.com/embed/LYj8QWk6tEg"
-  }
-]
+{
+  "id": "video-test-1",
+  "title": "for you",
+  "text": "here is something kept safely for you.\n\nwhenever you need it, you can return.",
+  "video": "https://www.youtube.com/embed/LYj8QWk6tEg?autoplay=1&controls=0&modestbranding=1&rel=0&showinfo=0&fs=0&disablekb=1"
+}
+
