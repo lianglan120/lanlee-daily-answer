@@ -2,224 +2,316 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ARVOLAN • soft page</title>
+  <title>ARVOLAN • Soft Pages</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 💫 dreamy 背景样式 */
     body {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px 16px;
-      background: #f3ecdd url("images/paper-texture.jpg") center/cover no-repeat fixed;
+      padding: 20px 10px;
+      background-color: #e9e2f3;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       font-family: "Georgia", "Times New Roman", serif;
+      color: #292016;
+      position: relative;
+      overflow: hidden;
     }
 
+    /* dreamy 光晕 + haze 叠加层 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.45), transparent 55%),
+        radial-gradient(circle at bottom, rgba(231,209,255,0.45), transparent 55%),
+        linear-gradient(to bottom, rgba(0,0,0,0.18), transparent 35%, transparent 65%, rgba(0,0,0,0.16));
+      mix-blend-mode: soft-light;
+      opacity: 0.9;
+      z-index: 0;
+    }
+
+    /* 书页主体 */
     .page {
-      max-width: 520px;
-      width: 100%;
+      max-width: 420px;
+      width: 72%;
+      min-height: 60vh;
+      padding: 40px 26px 34px;
+      line-height: 1.7;
+      position: relative;
       background: rgba(255, 252, 245, 0.96);
       box-shadow: 0 18px 40px rgba(0,0,0,0.35);
-      padding: 32px 26px 34px;
       border-radius: 4px;
-      position: relative;
-      line-height: 1.7;
-      color: #2d2418;
+      z-index: 1;
     }
 
+    @media (min-width: 768px) {
+      .page {
+        max-width: 460px;
+        width: 48%;
+        padding: 60px 36px 46px;
+        margin-left: 8%;
+      }
+    }
+
+    /* 书页边框 */
     .page::before {
       content: "";
       position: absolute;
       inset: 14px 10px;
       border: 1px solid rgba(0,0,0,0.06);
       pointer-events: none;
-    }
-
-    .inner {
-      position: relative;
-      z-index: 1;
+      opacity: 0.7;
     }
 
     .title {
-      text-align: center;
-      font-size: 1rem;
-      letter-spacing: 0.18em;
+      font-size: 0.9rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       margin-bottom: 18px;
     }
 
-    .body-text {
-      font-size: 0.92rem;
-      white-space: pre-line;
-      min-height: 140px;
+    /* 一行行动态浮现 */
+    .line {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .line.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .signature {
-      margin-top: 20px;
+      margin-top: 18px;
       font-size: 0.75rem;
       text-align: right;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       opacity: 0.7;
     }
 
-    .cursor {
-      display: inline-block;
-      width: 0.5ch;
-      animation: blink 1s steps(1) infinite;
-    }
-
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      50.01%, 100% { opacity: 0; }
-    }
-
     .hint {
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-top: 10px;
       font-size: 0.7rem;
-      opacity: 0.5;
+      opacity: 0.4;
+      text-align: center;
     }
   </style>
 </head>
+
 <body>
+
   <div class="page">
-    <div class="inner">
-      <div id="poemTitle" class="title"></div>
-      <div id="poemBody" class="body-text"></div>
-      <div class="signature">— ARVOLAN</div>
-      <div class="hint">refresh for another page</div>
-    </div>
+    <div id="poemTitle" class="title"></div>
+    <div id="poemBody"></div>
+    <div class="signature">— ARVOLAN</div>
+    <div class="hint">refresh for another page</div>
   </div>
 
   <script>
-    // 这里是你的短篇诗集，可以继续往里面加
+    /* 🎨 随机背景图（17 张 images/poetry_bg_XX.jpg） */
+    const bgTotal = 17;
+    const randomBg = Math.floor(Math.random() * bgTotal) + 1;
+    const bgName = String(randomBg).padStart(2, "0");
+    document.body.style.backgroundImage = `url('images/poetry_bg_${bgName}.jpg')`;
+
+    /* 📚 诗集内容（可无限扩展） */
     const poems = [
       {
-        id: "small-beginning",
-        title: "A SMALL BEGINNING",
-        text:
-`there are days when you feel
-like your steps are too small
-to matter—
-
-as if progress only counts
-when it is loud
-and undeniable.
-
-but beginnings were never meant
-to arrive loudly;
-only honestly.
-
-one softer choice,
-one deeper breath,
-one moment of choosing
-not to give up—
-
-this, too,
-is a beginning.`
+        title: "STAY SINGLE UNTIL",
+        lines: [
+          "stay single until love feels like peace",
+          "and not a guessing game.",
+          "",
+          "stay single until the person in front of you",
+          "doesn’t make you wonder what you did wrong,",
+          "but makes you wonder how you lived so long",
+          "without this level of calm.",
+          "",
+          "stay single until someone looks at you",
+          "like you are a place to rest—",
+          "not a project,",
+          "not a challenge,",
+          "not a temporary storyline.",
+          "",
+          "stay single until conversations feel like exhaling,",
+          "until honesty is the default,",
+          "until effort isn’t something you have to beg for",
+          "or reinterpret",
+          "or justify to your friends.",
+          "",
+          "stay single until someone chooses you",
+          "the same on the quiet days",
+          "as they do on the bright ones.",
+          "until love stops feeling like a test",
+          "and starts feeling like returning home.",
+          "",
+          "stay single until someone holds your heart",
+          "with both hands",
+          "and doesn’t drop it",
+          "when they feel overwhelmed.",
+          "",
+          "because that’s what real love is—",
+          "a place where your nervous system can finally relax.",
+          "",
+          "you deserve that kind of love.",
+          "wait for it."
+        ]
       },
+
       {
-        id: "untangled",
-        title: "UNTANGLED",
-        text:
-`not every knot inside you
-needs to be solved today.
-
-some things loosen slowly,
-like a breath
-you forgot you were holding.
-
-healing is not a race;
-it is the quiet art
-of returning to yourself,
-strand by gentle strand.`
+        title: "THIS IS YOUR SIGN",
+        lines: [
+          "this is your sign",
+          "to trust that life is happening for you,",
+          "not to you.",
+          "",
+          "i know it’s hard to believe",
+          "when everything feels uncertain,",
+          "but the closed doors were not punishments—",
+          "they were redirections.",
+          "",
+          "the timing that frustrated you",
+          "was protection.",
+          "the endings that hurt",
+          "were clearing space",
+          "for something you couldn’t see yet.",
+          "",
+          "you are not stuck.",
+          "you are being shaped.",
+          "",
+          "every delay taught you patience,",
+          "every detour gave you perspective.",
+          "",
+          "let life work in ways",
+          "you don’t yet understand.",
+          "",
+          "life is not happening to you.",
+          "life is happening for you.",
+          "your only job",
+          "is to stay open."
+        ]
       },
+
       {
-        id: "gentleness",
-        title: "THE GENTLENESS YOU DESERVE",
-        text:
-`you spent years believing
-you had to earn softness—
+        title: "THE ART OF LETTING GO",
+        lines: [
+          "letting go is not forgetting.",
+          "it is not pretending you never cared.",
+          "",
+          "letting go is choosing peace",
+          "over the version of love",
+          "that kept hurting you.",
+          "",
+          "it is accepting the truth",
+          "instead of rewriting it",
+          "again and again.",
+          "",
+          "letting go is unclenching your hands",
+          "from what was never yours to hold.",
+          "",
+          "letting go is grieving the dream",
+          "without grieving yourself.",
+          "",
+          "it is the slow, patient art",
+          "of returning to yourself—",
+          "breath by breath,",
+          "until the memories stop burning",
+          "and start becoming lessons.",
+          "",
+          "letting go is not the end.",
+          "it is the beginning",
+          "of who you are becoming next."
+        ]
+      },
 
-as if tenderness were a prize
-for those who never failed.
-
-but gentleness is not a reward,
-it is a need.
-
-it belongs to you
-simply because you are here,
-breathing, trying,
-continuing.`
+      {
+        title: "EVEN IF YOU’RE NOT CONTENT",
+        lines: [
+          "even if you don’t feel content",
+          "with where you are,",
+          "i’m proud of you",
+          "for simply being here.",
+          "",
+          "maybe your path wasn’t smooth.",
+          "maybe you rebuilt yourself quietly,",
+          "again and again.",
+          "",
+          "and yet, you kept going.",
+          "even with a tired heart,",
+          "even with uncertainty,",
+          "even with days where breathing felt like work.",
+          "",
+          "you overcame things",
+          "people never saw.",
+          "",
+          "you are allowed to want more",
+          "and still honour how far you’ve come.",
+          "",
+          "not giving up",
+          "is already extraordinary."
+        ]
       }
-      // ⇧ 这里继续添加更多诗 { title, text } 对象即可
     ];
 
+    /* ✨ 随机挑选一首诗 */
     function pickRandomPoem() {
       const index = Math.floor(Math.random() * poems.length);
       return poems[index];
     }
 
-    const titleEl = document.getElementById("poemTitle");
-    const bodyEl = document.getElementById("poemBody");
+    /* 🪄 一行一行浮现效果 */
+    function showPoem(poem) {
+      const titleEl = document.getElementById("poemTitle");
+      const bodyEl = document.getElementById("poemBody");
 
-    // 简单打字机效果：先打标题，再打正文
-    function typeWriter(fullTitle, fullText, speed = 25) {
-      let tIndex = 0;
-      let bIndex = 0;
-
-      titleEl.textContent = "";
+      titleEl.textContent = poem.title || "";
       bodyEl.innerHTML = "";
 
-      const titleCursor = document.createElement("span");
-      titleCursor.className = "cursor";
-      titleCursor.textContent = "|";
-      titleEl.appendChild(titleCursor);
+      let i = 0;
 
-      const bodyCursor = document.createElement("span");
-      bodyCursor.className = "cursor";
-      bodyCursor.textContent = "|";
-      bodyEl.appendChild(bodyCursor);
+      function revealNextLine() {
+        if (i >= poem.lines.length) return;
 
-      // 打标题
-      const titleTimer = setInterval(() => {
-        if (tIndex < fullTitle.length) {
-          titleCursor.before(document.createTextNode(fullTitle[tIndex]));
-          tIndex++;
-        } else {
-          clearInterval(titleTimer);
-          // 标题结束后，开始打正文
-          typeBody();
-        }
-      }, speed);
+        const lineEl = document.createElement("div");
+        lineEl.className = "line";
+        lineEl.textContent = poem.lines[i];
 
-      // 打正文
-      function typeBody() {
-        const bodyTimer = setInterval(() => {
-          if (bIndex < fullText.length) {
-            const ch = fullText[bIndex];
-            if (ch === "\n") {
-              bodyCursor.before(document.createElement("br"));
-            } else {
-              bodyCursor.before(document.createTextNode(ch));
-            }
-            bIndex++;
-          } else {
-            clearInterval(bodyTimer);
-            // 正文结束，停下光标闪烁即可
-          }
-        }, speed);
+        bodyEl.appendChild(lineEl);
+
+        requestAnimationFrame(() => {
+          lineEl.classList.add("show");
+        });
+
+        i++;
+        setTimeout(revealNextLine, 1300); // 1.3 秒出现一行
       }
+
+      revealNextLine();
     }
 
-    // 选一首随机诗并播放打字机
+    // 开始显示诗集
     const poem = pickRandomPoem();
-    typeWriter(poem.title, poem.text);
+    showPoem(poem);
+
   </script>
 </body>
 </html>
