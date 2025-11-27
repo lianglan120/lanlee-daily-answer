@@ -17,12 +17,12 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      background-attachment: fixed;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       color: #292016;
       overflow-y: auto;
     }
 
-    /* dreamy 柔光叠加 */
     body::before {
       content: "";
       position: fixed;
@@ -36,12 +36,11 @@
       pointer-events: none;
     }
 
-    /* 书页卡片 */
     .page {
       width: 100%;
       max-width: 520px;
       padding: 28px 22px 32px;
-      background: rgba(255,252,245,0.86);
+      background: rgba(255,252,245,0.9);
       border-radius: 6px;
       box-shadow: 0 10px 26px rgba(0,0,0,0.2);
       position: relative;
@@ -59,35 +58,31 @@
     }
 
     .title {
-      font-size: 0.86rem;              /* 标题稍微小一点 */
-      letter-spacing: 0.12em;          /* 间距缩小 */
+      font-size: 0.86rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       margin-bottom: 14px;
       color: #524337;
-      text-align: left;
     }
 
     .poem {
       font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS",
                    -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-      font-size: 0.95rem;              /* 正文字体整体变小一点 */
+      font-size: 0.95rem;
       line-height: 1.85;
       color: #3a3026;
       white-space: pre-wrap;
-      word-wrap: break-word;
       min-height: 40vh;
     }
 
     .signature,
-    .copyright,
-    .stamp {
-      opacity: 0;                      /* 初始隐藏，打完字再出现 */
+    .copyright {
+      opacity: 0;
       transition: opacity 0.8s ease;
     }
 
     .signature.visible,
-    .copyright.visible,
-    .stamp.visible {
+    .copyright.visible {
       opacity: 0.65;
     }
 
@@ -105,25 +100,6 @@
       text-align: right;
       opacity: 0.45;
     }
-
-    .stamp {
-      margin-top: 14px;
-      font-size: 0.68rem;
-      text-align: right;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      opacity: 0.35;
-      font-weight: 500;
-    }
-
-    @media (min-width: 768px) {
-      body {
-        padding: 40px 16px 60px;
-      }
-      .page {
-        padding: 36px 28px 36px;
-      }
-    }
   </style>
 </head>
 
@@ -137,17 +113,16 @@
     <div id="copyright" class="copyright">
       all original writings. copyright © arvolan. all rights reserved.
     </div>
-    <div id="stamp" class="stamp"></div>
   </div>
 
   <script>
-    /* 🎨 随机背景图：poetry_bg_01 ~ poetry_bg_17 */
+    /* 背景随机 */
     const bgTotal = 17;
     const randomBg = Math.floor(Math.random() * bgTotal) + 1;
     const bgName = String(randomBg).padStart(2, "0");
     document.body.style.backgroundImage = `url('images/poetry_bg_${bgName}.jpg')`;
 
-    /* 📚 诗集内容：可以继续往数组里加 */
+    /* 诗集 */
     const poems = [
       {
         title: "THE ART OF LETTING GO",
@@ -177,110 +152,26 @@
           "it is the beginning",
           "of who you will become next."
         ]
-      },
-      {
-        title: "STAY SINGLE UNTIL",
-        lines: [
-          "stay single until love feels like peace",
-          "and not a guessing game.",
-          "",
-          "stay single until the person in front of you",
-          "doesn’t make you wonder what you did wrong,",
-          "but makes you wonder how you lived so long",
-          "without this level of calm.",
-          "",
-          "stay single until someone looks at you",
-          "like you are a place to rest—",
-          "not a project,",
-          "not a challenge,",
-          "not a temporary storyline.",
-          "",
-          "stay single until conversations feel like exhaling,",
-          "until honesty is the default,",
-          "until effort isn’t something you have to beg for",
-          "or reinterpret",
-          "or justify to your friends.",
-          "",
-          "because that’s what real love is—",
-          "a place where your nervous system",
-          "can finally relax."
-        ]
-      },
-      {
-        title: "THIS IS YOUR SIGN",
-        lines: [
-          "this is your sign",
-          "to trust that life is happening for you,",
-          "not to you.",
-          "",
-          "the closed doors were not punishments—",
-          "they were redirections.",
-          "the timing that frustrated you",
-          "was protection.",
-          "",
-          "you are not stuck.",
-          "you are being shaped.",
-          "",
-          "every delay taught you patience,",
-          "every detour gave you perspective.",
-          "",
-          "let life work in ways",
-          "you don’t yet understand.",
-          "",
-          "life is not happening to you.",
-          "life is happening for you.",
-          "your only job",
-          "is to stay open."
-        ]
-      },
-      {
-        title: "EVEN IF YOU’RE NOT CONTENT",
-        lines: [
-          "even if you don’t feel content",
-          "with where you are,",
-          "i’m proud of you",
-          "for simply being here.",
-          "",
-          "you have survived days",
-          "you thought would swallow you whole.",
-          "you have carried feelings",
-          "you never said out loud.",
-          "",
-          "and yet, you kept going.",
-          "even with a tired heart,",
-          "even with uncertainty,",
-          "even with moments",
-          "where breathing felt like work.",
-          "",
-          "you are allowed to want more",
-          "and still honour",
-          "how far you’ve come.",
-          "",
-          "not giving up",
-          "is already a miracle."
-        ]
       }
     ];
 
-    /* ✨ 随机挑一首诗 */
-    function pickRandomPoem() {
-      const index = Math.floor(Math.random() * poems.length);
-      return poems[index];
-    }
+    /* 随机挑一篇 */
+    const poem = poems[Math.floor(Math.random() * poems.length)];
+    document.getElementById("poemTitle").textContent = poem.title;
 
-    /* ⌨️ 打字机效果：逐字追加，避免闪烁，速度明显变慢 */
+    /* 打字效果 */
     function typewriter(text, element, onDone) {
       let idx = 0;
-      const speed = 160; // 毫秒，越大越慢；现在是明显“慢慢出现”
+      const speed = 80; // 打字速度
 
       element.textContent = "";
 
       function type() {
         if (idx >= text.length) {
-          if (typeof onDone === "function") onDone();
+          if (onDone) onDone();
           return;
         }
-        element.textContent += text.charAt(idx);  // 逐字追加，不整块刷新
+        element.textContent += text.charAt(idx);
         idx++;
         setTimeout(type, speed);
       }
@@ -288,45 +179,14 @@
       type();
     }
 
-    const poem = pickRandomPoem();
-    document.getElementById("poemTitle").textContent = poem.title;
     const fullText = poem.lines.join("\n");
-
-    /* 🌍 地点 + 时间：使用时区，只取城市名，避免乱猜国家 */
-    function getPlaceFromTimezone() {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-      const parts = tz.split("/");
-      if (parts.length === 1) return (parts[0] || "SOMEWHERE").toUpperCase();
-      const city = parts[1] || parts[0];
-      return city.replace(/_/g, " ").toUpperCase();
-    }
-
-    function generateStamp() {
-      const place = getPlaceFromTimezone();
-      const date = new Date();
-
-      const day = date.getDate();
-      const month = date.toLocaleString("en-US", { month: "short" }).toUpperCase();
-      const year = date.getFullYear();
-      const time = date.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false
-      });
-
-      return `${place} • ${day} ${month} ${year} • ${time}`;
-    }
 
     const signatureEl = document.getElementById("signature");
     const copyrightEl = document.getElementById("copyright");
-    const stampEl = document.getElementById("stamp");
 
-    // 打字完成后，再显示 ARVOLAN + 版权 + STAMP
     typewriter(fullText, document.getElementById("poemBody"), () => {
-      stampEl.textContent = generateStamp();
       signatureEl.classList.add("visible");
       copyrightEl.classList.add("visible");
-      stampEl.classList.add("visible");
     });
   </script>
 </body>
