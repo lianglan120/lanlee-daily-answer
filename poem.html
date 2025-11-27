@@ -39,8 +39,8 @@
     .page {
       width: 100%;
       max-width: 520px;
-      padding: 28px 22px 32px;
-      background: rgba(255,252,245,0.9);
+      padding: 28px 24px 32px;
+      background: rgba(255,252,245,0.95);
       border-radius: 6px;
       box-shadow: 0 10px 26px rgba(0,0,0,0.2);
       position: relative;
@@ -51,37 +51,38 @@
     .page::before {
       content: "";
       position: absolute;
-      inset: 16px 12px;
+      inset: 16px 14px;
       border: 1px solid rgba(0,0,0,0.05);
       pointer-events: none;
       opacity: 0.8;
     }
 
     .title {
+      font-family: "Georgia", "Times New Roman", serif;
       font-size: 0.86rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
       color: #524337;
     }
 
     .poem {
-      font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS",
-                   -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-      font-size: 0.95rem;
-      line-height: 1.85;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 0.94rem;
+      line-height: 1.9;
       color: #3a3026;
       min-height: 40vh;
     }
 
-    /* 一行行慢慢浮现 */
-    .poem-line {
+    /* 段落样式 + 动画 */
+    .poem-paragraph {
       opacity: 0;
-      transform: translateY(2px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
+      transform: translateY(4px);
+      transition: opacity 1s ease, transform 1s ease;
+      margin-bottom: 1.1rem; /* 段间距，模仿书页 */
     }
 
-    .poem-line.visible {
+    .poem-paragraph.visible {
       opacity: 1;
       transform: translateY(0);
     }
@@ -89,7 +90,8 @@
     .signature,
     .copyright {
       opacity: 0;
-      transition: opacity 0.8s ease;
+      transition: opacity 0.9s ease;
+      font-family: "Georgia", "Times New Roman", serif;
     }
 
     .signature.visible,
@@ -98,7 +100,7 @@
     }
 
     .signature {
-      margin-top: 22px;
+      margin-top: 10px;
       font-size: 0.78rem;
       text-align: right;
       letter-spacing: 0.20em;
@@ -133,82 +135,24 @@
     const bgName = String(randomBg).padStart(2, "0");
     document.body.style.backgroundImage = `url('images/poetry_bg_${bgName}.jpg')`;
 
-    /* 诗集 */
+    /* 诗集（按段落） */
     const poems = [
       {
         title: "LIFE IS GOING TO WORK OUT PERFECTLY",
-        lines: [
-          "life is going to work out perfectly —",
-          "maybe not the way you planned,",
-          "but in the way you quietly need.",
-          "",
-          "the right people will come into your life",
-          "without force,",
-          "without questioning,",
-          "just steady and sure,",
-          "like they were always meant to be there.",
-          "",
-          "the wrong people will leave",
-          "not with chaos,",
-          "but with distance —",
-          "a soft kind of closing",
-          "you’ll only understand later.",
-          "",
-          "you will find a home",
-          "that feels safe to return to,",
-          "where mornings don’t feel heavy",
-          "and silence doesn’t feel like punishment.",
-          "",
-          "you will build a career",
-          "that doesn’t drain you,",
-          "but teaches you who you are,",
-          "and what you’re capable of.",
-          "",
-          "you will wake beside someone",
-          "who doesn’t make love complicated,",
-          "someone who stays,",
-          "someone who shows up,",
-          "someone who makes ordinary mornings",
-          "feel like soft beginnings.",
-          "",
-          "you will have slow sundays",
-          "where life doesn’t demand anything from you —",
-          "just rest,",
-          "just softness,",
-          "just being here.",
-          "",
-          "you will have holidays",
-          "that feel warm and gentle,",
-          "filled with people",
-          "who don’t need you to be anything",
-          "other than yourself.",
-          "",
-          "you will take drives at night",
-          "with the windows down,",
-          "feeling something inside you loosen,",
-          "finally trusting",
-          "that life is opening up again.",
-          "",
-          "you will look at yourself one day",
-          "and feel a quiet pride,",
-          "realizing how far you’ve come",
-          "without even noticing.",
-          "",
-          "so please don’t rush yourself.",
-          "don’t measure your life",
-          "against someone else’s timeline.",
-          "",
-          "you are growing into the life",
-          "that was always meant for you.",
-          "",
-          "and yes —",
-          "life is going to work out",
-          "perfectly."
+        paragraphs: [
+          "life is going to work out perfectly — maybe not in the way you once imagined, but in the way you quietly need. it won’t be sudden. it will be small choices, softer days, a kind of peace that slowly finds you where you are.",
+          "the right people will come into your life without force or performance — just steady and sure, asking you to be nothing more than yourself. the wrong people will leave, not with chaos, but with distance, a soft kind of closing you’ll only understand later.",
+          "you will find a home that feels safe to return to. mornings won’t feel so heavy, and silence won’t sound like punishment. your space will hold you the way you have held everyone else.",
+          "you will build a life’s work that doesn’t drain you dry. it will stretch you, teach you who you are, and remind you of what you are capable of, without asking you to disappear to prove it.",
+          "you will wake beside someone who doesn’t make love complicated — someone who stays, who shows up, who turns ordinary mornings into gentle beginnings and reminds you that you don’t have to earn tenderness.",
+          "you will have slow sundays where life asks nothing of you but rest. you will have holidays that feel warm and honest, filled with people who don’t need you to be impressive, only present.",
+          "you will drive with the windows down at night and feel something inside you finally loosen. one day you will look at yourself and feel a quiet pride, realizing how far you’ve come without even noticing.",
+          "so please don’t rush yourself. don’t measure your life against someone else’s timeline. you are growing into a life that was always meant for you — and yes, life is going to work out perfectly."
         ]
       }
     ];
 
-    /* 随机挑一篇（现在只有一篇，但保留结构方便以后加） */
+    /* 随机挑一篇（方便以后扩展多首） */
     const poem = poems[Math.floor(Math.random() * poems.length)];
 
     const titleEl = document.getElementById("poemTitle");
@@ -217,26 +161,22 @@
     const copyrightEl = document.getElementById("copyright");
 
     titleEl.textContent = poem.title;
-
-    // 清空内容
     poemBodyEl.innerHTML = "";
 
-    const lineDelay = 420; // 每行间隔时间（毫秒），可以调快/调慢
+    const paragraphDelay = 1400; // 每一段出现的间隔（毫秒），可以再调慢一点
 
-    // 创建每一行，并一行行淡入
-    poem.lines.forEach((line, index) => {
-      const lineEl = document.createElement("div");
-      lineEl.className = "poem-line";
-      lineEl.textContent = line === "" ? " " : line;
-      poemBodyEl.appendChild(lineEl);
+    poem.paragraphs.forEach((text, index) => {
+      const p = document.createElement("p");
+      p.className = "poem-paragraph";
+      p.textContent = text;
+      poemBodyEl.appendChild(p);
 
       setTimeout(() => {
-        lineEl.classList.add("visible");
-      }, index * lineDelay);
+        p.classList.add("visible");
+      }, index * paragraphDelay);
     });
 
-    // 全部行显示完，再淡入 ARVOLAN 和版权
-    const totalDelay = poem.lines.length * lineDelay + 600;
+    const totalDelay = poem.paragraphs.length * paragraphDelay + 800;
 
     setTimeout(() => {
       signatureEl.classList.add("visible");
