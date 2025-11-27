@@ -37,25 +37,26 @@
     }
 
     .page {
-      width: 100%;
-      max-width: 540px;
-      padding: 32px 26px 40px;
-      background: rgba(255,252,245,0.96);
-      border-radius: 6px;
-      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
-      position: relative;
-      line-height: 1.95;
-      z-index: 1;
-    }
+  width: 100%;
+  max-width: 520px;
+  padding: 28px 24px 32px;
+  background: rgba(255,252,245,0.82); /* ← 透明度升级：原本0.95，现在更透 */
+  backdrop-filter: blur(1.8px);        /* ← 增加柔雾感，让背景更梦幻 */
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12); /* ← 阴影更轻，不抢戏 */
+  position: relative;
+  line-height: 1.9;
+  z-index: 1;
+}
 
-    .page::before {
-      content: "";
-      position: absolute;
-      inset: 18px 16px;
-      border: 1px solid rgba(0,0,0,0.04);
-      pointer-events: none;
-      opacity: 0.75;
-    }
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 16px 14px;
+  border: 1px solid rgba(0,0,0,0.03); /* 更轻 */
+  pointer-events: none;
+  opacity: 0.55; /* 边框透明度降低 */
+}
 
     .title {
       font-family: "Georgia", "Times New Roman", serif;
@@ -204,4 +205,30 @@
   </script>
 </body>
 </html>
+
+/* ✨ 自动缓慢滚动 */
+let autoScrollActive = true;
+
+function slowScroll() {
+  if (!autoScrollActive) return;
+  window.scrollBy(0, 0.4);  // ← 调这边来控制速度（越小越慢）
+  requestAnimationFrame(slowScroll);
+}
+
+/* 用户一触摸 / 滚动立即停止自动滚动 */
+function stopAutoScroll() {
+  autoScrollActive = false;
+}
+
+window.addEventListener('wheel', stopAutoScroll, { passive: true });
+window.addEventListener('touchstart', stopAutoScroll, { passive: true });
+window.addEventListener('mousedown', stopAutoScroll);
+
+/* 页面加载后启动 */
+window.onload = () => {
+  setTimeout(() => {
+    slowScroll();
+  }, 1800); // 等待页面淡入完，再开始慢滑
+};
+
 
